@@ -97,3 +97,23 @@ appuser@someinternalhost:~$ ip a show eth0
     inet6 fe80::d20d:ffff:fed1:9c37/64 scope link
        valid_lft forever preferred_lft forever
 ```
+
+
+## Configuration data for VPN testing
+
+bastion_IP = 130.193.51.130
+
+someinternalhost_IP = 10.130.0.28
+
+
+## Configuration
+
+Two VMs:
+
+- bastion
+- someinternalhost w/o External IP
+
+
+Pritunl vpn server is installed on Bastion host and used to access an internal network.
+
+Configuration file: cloud-bastion.ovpn
