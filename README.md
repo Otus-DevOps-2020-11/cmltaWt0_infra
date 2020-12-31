@@ -1,2 +1,99 @@
 # cmltaWt0_infra
 cmltaWt0 Infra repository
+
+
+Homework #5
+===
+
+Solution 1:
+---
+
+```
+ssh -i ~/.ssh/appuser -J appuser@<BASTION_IP> appuser@<SOMEINTERNALHOST_IP>
+```
+
+
+Real example:
+
+```
+➜ ssh -i ~/.ssh/appuser -J appuser@130.193.51.130 appuser@10.130.0.28
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.4.0-26-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+Last login: Thu Dec 31 09:33:37 2020 from 10.130.0.5
+
+
+➜ appuser@someinternalhost:~$ ip a show eth0
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether d0:0d:ff:d1:9c:37 brd ff:ff:ff:ff:ff:ff
+    inet 10.130.0.28/24 brd 10.130.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::d20d:ffff:fed1:9c37/64 scope link
+       valid_lft forever preferred_lft forever
+```
+
+Solution 2:
+---
+
+```
+➜  cat ~/.ssh/config
+Host *
+    UseKeychain yes
+
+Host simpleinternalhost
+    User appuser
+    HostName <SOMEINTERNALHOST_IP>
+    ProxyJump bastion
+
+Host bastion
+    User appuser
+    HostName <BASTION_IP>
+
+➜ ssh simpleinternalhost
+```
+
+
+Real example:
+```
+➜  cat ~/.ssh/config
+Host *
+    UseKeychain yes
+
+Host simpleinternalhost
+    User appuser
+    HostName 10.130.0.28
+    ProxyJump bastion
+
+Host bastion
+    User appuser
+    HostName 130.193.51.130
+
+
+➜ bash -c "echo alias simpleinternalhost=\'ssh simpleinternalhost\'" >> ~/.aliases
+
+➜ source ~/.aliases
+
+➜ simpleinternalhost
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.4.0-26-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+Last login: Thu Dec 31 10:03:53 2020 from 10.130.0.5
+
+appuser@someinternalhost:~$ ip a show eth0
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether d0:0d:ff:d1:9c:37 brd ff:ff:ff:ff:ff:ff
+    inet 10.130.0.28/24 brd 10.130.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::d20d:ffff:fed1:9c37/64 scope link
+       valid_lft forever preferred_lft forever
+```
