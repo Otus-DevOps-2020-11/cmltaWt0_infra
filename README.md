@@ -117,3 +117,36 @@ Two VMs:
 Pritunl vpn server is installed on Bastion host and used to access an internal network.
 
 Configuration file: cloud-bastion.ovpn
+
+## Additional task
+
+Using sslip.io and Let's Encrypt implement valid cert for Pritunl admin dashboard:
+
+### Steps:
+
+- install certbot
+- pritunl reset-ssl-cert
+- re-enter the letsencrypt domain in the pritunl gui
+
+
+### Test:
+
+
+```
+➜ wget https://130-193-51-130.sslip.io
+
+--2021-01-01 12:11:33--  https://130-193-51-130.sslip.io/
+Resolving 130-193-51-130.sslip.io (130-193-51-130.sslip.io)... 130.193.51.130
+Connecting to 130-193-51-130.sslip.io (130-193-51-130.sslip.io)|130.193.51.130|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://130-193-51-130.sslip.io/login [following]
+--2021-01-01 12:11:34--  https://130-193-51-130.sslip.io/login
+Reusing existing connection to 130-193-51-130.sslip.io:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 72833 (71K) [text/html]
+Saving to: ‘index.html’
+
+index.html                     100%[====================================================>]  71,13K   289KB/s    in 0,2s
+
+2021-01-01 12:11:34 (289 KB/s) - ‘index.html’ saved [72833/72833]
+```
