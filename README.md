@@ -150,3 +150,39 @@ index.html                     100%[============================================
 
 2021-01-01 12:11:34 (289 KB/s) - ‘index.html’ saved [72833/72833]
 ```
+
+
+Homework #4
+===
+
+testapp_IP = 178.154.207.73
+testapp_port = 9292
+
+Что сделано в рамках базового домашнего задания:
+
+- установлен и настроен YC CLI
+- создан инстанс с помощью **yc**
+- установлены ruby, mongodb, запущено тестовое приложение
+
+Самостоятельная работа:
+
+- создан скрипт установки ruby
+- создан скринт установки monogdb
+- создан скрипт деплоя тестового приложения
+
+Дополнительное задание:
+
+- создан стартап скрипт для cloud-init
+
+Команда создания инстанса:
+
+```
+➜ yc compute instance create \
+--name reddit-app \
+--hostname reddit-app \
+--memory=4 \
+--create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1604-lts,size=10GB \
+--network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
+--metadata serial-port-enable=1 \
+--metadata-from-file user-data=metadata.yaml
+```
